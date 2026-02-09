@@ -1,0 +1,2579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduManager - Système de Gestion Scolaire Complet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Page de Connexion -->
+    <div id="loginPage" class="container">
+        <div class="login-container">
+            <div class="text-center mb-4">
+                <div class="logo">EDU<span>MANAGER</span></div>
+                <p class="text-muted">Système de Gestion Scolaire Complet</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="username" class="form-label text-light">Identifiant</label>
+                    <input type="text" class="form-control form-control-futurist" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label text-light">Mot de passe</label>
+                    <input type="password" class="form-control form-control-futurist" id="password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label text-light">Rôle</label>
+                    <select class="form-select form-control-futurist" id="role" required>
+                        <option value="">Sélectionner un rôle</option>
+                        <option value="admin">Administration</option>
+                        <option value="secretary">Secrétariat</option>
+                        <option value="surveillant">Surveillant</option>
+                        <option value="economat">Économat</option>
+                        <option value="censeur">Censeur</option>
+                        <option value="teacher">Professeur</option>
+                        <option value="parent">Parent</option>
+                        <option value="student">Élève</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-futurist btn-futurist-primary w-100">
+                    <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+                </button>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <p class="text-light small">Identifiants de démonstration:</p>
+                <p class="small text-light">Admin: admin / admin123</p>
+                <p class="small text-light">Ou sélectionnez n'importe quel rôle</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interface Principale -->
+    <div id="mainApp" style="display: none;">
+        <!-- Bouton menu mobile -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo text-center">EDU<span>MANAGER</span></div>
+                <p class="text-center text-light small mt-2" id="currentRoleDisplay">Rôle: Administration</p>
+                <div class="text-center mt-3">
+                    <span class="badge badge-futurist badge-admin" id="roleBadge">Admin</span>
+                </div>
+            </div>
+            
+            <ul class="nav flex-column mt-3">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span class="nav-text">Tableau de bord</span>
+                    </a>
+                </li>
+                
+                <!-- Menu Administration - Texte plus gros -->
+                <li class="nav-item admin-menu menu-admin-secretary">
+                    <a class="nav-link" href="#" data-section="parameters">
+                        <i class="fas fa-cog"></i>
+                        <span class="nav-text">Paramètres</span>
+                    </a>
+                </li>
+                <li class="nav-item admin-menu menu-admin-secretary">
+                    <a class="nav-link" href="#" data-section="employees">
+                        <i class="fas fa-users-cog"></i>
+                        <span class="nav-text">Employés</span>
+                    </a>
+                </li>
+                <li class="nav-item admin-menu menu-admin-secretary">
+                    <a class="nav-link" href="#" data-section="fees">
+                        <i class="fas fa-money-check-alt"></i>
+                        <span class="nav-text">Frais & Versements</span>
+                    </a>
+                </li>
+                <li class="nav-item admin-menu menu-admin-secretary">
+                    <a class="nav-link" href="#" data-section="scholarships">
+                        <i class="fas fa-award"></i>
+                        <span class="nav-text">Bourses</span>
+                    </a>
+                </li>
+                <li class="nav-item admin-menu menu-admin-secretary">
+                    <a class="nav-link" href="#" data-section="transactions">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span class="nav-text">Transactions</span>
+                    </a>
+                </li>
+                
+                <!-- Menu Secrétariat - Texte plus gros -->
+                <li class="nav-item secretary-menu menu-admin-secretary">
+                    <a class="nav-link" href="#" data-section="inscription">
+                        <i class="fas fa-user-plus"></i>
+                        <span class="nav-text">Inscription</span>
+                    </a>
+                </li>
+                <li class="nav-item secretary-menu menu-admin-secretary">
+                    <a class="nav-link" href="#" data-section="students">
+                        <i class="fas fa-users"></i>
+                        <span class="nav-text">Élèves</span>
+                    </a>
+                </li>
+                
+                <!-- Menu Surveillance -->
+                <li class="nav-item surveillant-menu">
+                    <a class="nav-link" href="#" data-section="presence">
+                        <i class="fas fa-calendar-check"></i>
+                        <span class="nav-text">Présences</span>
+                    </a>
+                </li>
+                <li class="nav-item surveillant-menu">
+                    <a class="nav-link" href="#" data-section="discipline">
+                        <i class="fas fa-gavel"></i>
+                        <span class="nav-text">Discipline</span>
+                    </a>
+                </li>
+                
+                <!-- Menu Économat -->
+                <li class="nav-item economat-menu">
+                    <a class="nav-link" href="#" data-section="payments">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span class="nav-text">Paiements</span>
+                    </a>
+                </li>
+                
+                <!-- Menu Censeur -->
+                <li class="nav-item censeur-menu">
+                    <a class="nav-link" href="#" data-section="grades">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span class="nav-text">Notes</span>
+                    </a>
+                </li>
+                <li class="nav-item censeur-menu">
+                    <a class="nav-link" href="#" data-section="bulletins">
+                        <i class="fas fa-file-alt"></i>
+                        <span class="nav-text">Bulletins</span>
+                    </a>
+                </li>
+                <li class="nav-item censeur-menu">
+                    <a class="nav-link" href="#" data-section="teachers">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span class="nav-text">Professeurs</span>
+                    </a>
+                </li>
+                
+                <!-- Menu Professeur -->
+                <li class="nav-item teacher-menu">
+                    <a class="nav-link" href="#" data-section="myClasses">
+                        <i class="fas fa-chalkboard"></i>
+                        <span class="nav-text">Mes Classes</span>
+                    </a>
+                </li>
+                
+                <!-- Menu Réunions et Cours en ligne (pour tous) -->
+                <li class="nav-item meetings-menu">
+                    <a class="nav-link" href="#" data-section="meetings">
+                        <i class="fas fa-video"></i>
+                        <span class="nav-text">Réunions & Cours</span>
+                    </a>
+                </li>
+                
+                <!-- Menu Messages (pour tous) -->
+                <li class="nav-item messages-menu">
+                    <a class="nav-link" href="#" data-section="messages">
+                        <i class="fas fa-envelope"></i>
+                        <span class="nav-text">Messages</span>
+                        <span class="badge bg-danger ms-2" id="unreadCount" style="display: none;">0</span>
+                    </a>
+                </li>
+                
+                <!-- Menu Devoirs -->
+                <li class="nav-item homework-menu">
+                    <a class="nav-link" href="#" data-section="homework">
+                        <i class="fas fa-tasks"></i>
+                        <span class="nav-text">Devoirs</span>
+                    </a>
+                </li>
+                
+                <!-- Menu Commun -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-section="profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="nav-text">Profil</span>
+                    </a>
+                </li>
+                
+                <li class="nav-item mt-4">
+                    <a class="nav-link text-danger" href="#" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="nav-text">Déconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Contenu Principal -->
+        <div class="main-content">
+            <div class="header">
+                <div>
+                    <h4 id="pageTitle" class="mb-0">Tableau de bord</h4>
+                    <p class="text-light small mb-0" id="currentDate"></p>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <span id="currentUserDisplay" class="text-light">Admin Système</span>
+                    <button class="btn btn-futurist btn-sm" id="printBtn" style="display: none;">
+                        <i class="fas fa-print me-2"></i>Imprimer
+                    </button>
+                </div>
+            </div>
+            
+            <div id="contentArea">
+                <!-- Tableau de bord -->
+                <div id="dashboardSection">
+                    <div class="row mb-4">
+                        <div class="col-md-3 mb-3">
+                            <div class="card-futurist stat-card stat-card-1">
+                                <div class="card-body-futurist text-center">
+                                    <i class="fas fa-users fa-3x mb-3" style="color: var(--accent-color);"></i>
+                                    <h2 id="totalStudents">0</h2>
+                                    <p class="text-light">Élèves inscrits</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card-futurist stat-card stat-card-2">
+                                <div class="card-body-futurist text-center">
+                                    <i class="fas fa-money-bill-wave fa-3x mb-3" style="color: var(--success-color);"></i>
+                                    <h2 id="totalPayments">0</h2>
+                                    <p class="text-light">Paiements aujourd'hui</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card-futurist stat-card stat-card-3">
+                                <div class="card-body-futurist text-center">
+                                    <i class="fas fa-user-times fa-3x mb-3" style="color: var(--danger-color);"></i>
+                                    <h2 id="absencesToday">0</h2>
+                                    <p class="text-light">Absences aujourd'hui</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card-futurist stat-card stat-card-4">
+                                <div class="card-body-futurist text-center">
+                                    <i class="fas fa-chart-line fa-3x mb-3" style="color: var(--warning-color);"></i>
+                                    <h2 id="gradesToEnter">0</h2>
+                                    <p class="text-light">Notes à saisir</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistiques supplémentaires -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Statistiques des paiements</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="row text-center">
+                                        <div class="col-md-4 mb-3">
+                                            <h3 id="totalCollected">0</h3>
+                                            <p class="text-light small">Total collecté</p>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <h3 id="totalPending">0</h3>
+                                            <p class="text-light small">En attente</p>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <h3 id="totalDebt">0</h3>
+                                            <p class="text-light small">Dette totale</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Activités récentes</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div id="recentActivities">
+                                        <p class="text-center text-muted">Aucune activité récente</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Paramètres améliorée -->
+                <div id="parametersSection" style="display: none;">
+                    <h3 class="section-title">Paramètres de l'école</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Informations de l'école</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <form id="schoolSettingsForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Nom de l'école</label>
+                                            <input type="text" class="form-control form-control-futurist" id="schoolName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Adresse</label>
+                                            <input type="text" class="form-control form-control-futurist" id="schoolAddress" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Téléphone</label>
+                                            <input type="tel" class="form-control form-control-futurist" id="schoolPhone" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control form-control-futurist" id="schoolEmail" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-futurist btn-futurist-primary">Enregistrer</button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <!-- Gestion des matières par section -->
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Gestion des matières par section</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <form id="subjectManagementForm">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Section</label>
+                                                <select class="form-select form-control-futurist" id="subjectSection" required>
+                                                    <option value="">Sélectionner</option>
+                                                    <option value="kindergarten">Kindergarten</option>
+                                                    <option value="cycle1">Fondamentale 1er cycle</option>
+                                                    <option value="cycle2">Fondamentale 2ème cycle</option>
+                                                    <option value="cycle3">Fondamentale 3ème cycle</option>
+                                                    <option value="secondary">Secondaire</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Type</label>
+                                                <select class="form-select form-control-futurist" id="subjectType">
+                                                    <option value="humanities">Humanités</option>
+                                                    <option value="sciences">Sciences</option>
+                                                    <option value="general">Général</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-8">
+                                                <label class="form-label">Nom de la matière</label>
+                                                <input type="text" class="form-control form-control-futurist" id="subjectName" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">Coefficient</label>
+                                                <input type="number" class="form-control form-control-futurist" id="subjectCoefficient" value="1" min="1" max="10">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Note maximale</label>
+                                            <input type="number" class="form-control form-control-futurist" id="subjectMaxGrade" value="100" min="10" max="200">
+                                        </div>
+                                        <button type="submit" class="btn btn-futurist btn-futurist-success w-100">Ajouter la matière</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Limites d'inscription par classe</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="mb-3">
+                                        <button class="btn btn-futurist btn-sm mb-2" onclick="showClassLimitModal()">
+                                            <i class="fas fa-plus me-1"></i>Ajouter une limite
+                                        </button>
+                                    </div>
+                                    <table class="table table-futurist">
+                                        <thead>
+                                            <tr>
+                                                <th>Classe</th>
+                                                <th>Limite</th>
+                                                <th>Inscrits</th>
+                                                <th>Disponibilité</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="classLimitsTable">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <!-- Liste des matières par section -->
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Matières configurées</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="mb-3">
+                                        <select class="form-select form-control-futurist" id="filterSubjectSection">
+                                            <option value="">Toutes les sections</option>
+                                            <option value="kindergarten">Kindergarten</option>
+                                            <option value="cycle1">Fondamentale 1er cycle</option>
+                                            <option value="cycle2">Fondamentale 2ème cycle</option>
+                                            <option value="cycle3">Fondamentale 3ème cycle</option>
+                                            <option value="secondary">Secondaire</option>
+                                        </select>
+                                    </div>
+                                    <div id="subjectsList">
+                                        <!-- Liste des matières générée dynamiquement -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Inscription -->
+                <div id="inscriptionSection" style="display: none;">
+                    <h3 class="section-title">Inscription des Élèves</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Formulaire d'inscription</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <form id="inscriptionForm">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Nom</label>
+                                                <input type="text" class="form-control form-control-futurist" id="studentLastName" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Prénom</label>
+                                                <input type="text" class="form-control form-control-futurist" id="studentFirstName" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Date de naissance</label>
+                                                <input type="date" class="form-control form-control-futurist" id="studentBirthDate" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Lieu de naissance</label>
+                                                <input type="text" class="form-control form-control-futurist" id="studentBirthPlace" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Sexe</label>
+                                                <select class="form-select form-control-futurist" id="studentGender" required>
+                                                    <option value="">Sélectionner</option>
+                                                    <option value="M">Masculin</option>
+                                                    <option value="F">Féminin</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Nationalité</label>
+                                                <input type="text" class="form-control form-control-futurist" id="studentNationality" value="Haïtienne">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Classe</label>
+                                                <select class="form-select form-control-futurist" id="studentClass" required>
+                                                    <option value="">Sélectionner</option>
+                                                </select>
+                                                <div class="form-text" id="classAvailability"></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Section</label>
+                                                <select class="form-select form-control-futurist" id="studentSection" required>
+                                                    <option value="">Sélectionner</option>
+                                                    <option value="kindergarten">Kindergarten</option>
+                                                    <option value="cycle1">Fondamentale 1er cycle</option>
+                                                    <option value="cycle2">Fondamentale 2ème cycle</option>
+                                                    <option value="cycle3">Fondamentale 3ème cycle</option>
+                                                    <option value="secondary">Secondaire</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Adresse</label>
+                                            <input type="text" class="form-control form-control-futurist" id="studentAddress" required>
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Téléphone</label>
+                                                <input type="tel" class="form-control form-control-futurist" id="studentPhone">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Email</label>
+                                                <input type="email" class="form-control form-control-futurist" id="studentEmail">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Nom du père</label>
+                                            <input type="text" class="form-control form-control-futurist" id="studentFatherName">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Nom de la mère</label>
+                                            <input type="text" class="form-control form-control-futurist" id="studentMotherName">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Tuteur légal</label>
+                                            <input type="text" class="form-control form-control-futurist" id="studentGuardian">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Téléphone du tuteur</label>
+                                            <input type="tel" class="form-control form-control-futurist" id="studentGuardianPhone" required>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Antécédents médicaux</label>
+                                            <textarea class="form-control form-control-futurist" id="studentMedical" rows="2"></textarea>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-futurist btn-futurist-success w-100">
+                                            <i class="fas fa-save me-2"></i>Inscrire l'élève
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Élèves récemment inscrits</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="table-responsive">
+                                        <table class="table table-futurist">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nom</th>
+                                                    <th>Classe</th>
+                                                    <th>Date d'inscription</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="recentStudentsTable">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-futurist mt-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Statistiques d'inscription</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="row text-center">
+                                        <div class="col-md-4 mb-3">
+                                            <h4 id="totalStudentsCount">0</h4>
+                                            <p class="text-light small">Total élèves</p>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <h4 id="newStudentsToday">0</h4>
+                                            <p class="text-light small">Aujourd'hui</p>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <h4 id="newStudentsMonth">0</h4>
+                                            <p class="text-light small">Ce mois</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Liste des Élèves -->
+                <div id="studentsSection" style="display: none;">
+                    <h3 class="section-title">Liste des Élèves</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-futurist" id="searchStudent" placeholder="Rechercher un élève...">
+                                <button class="btn btn-futurist" type="button" id="searchStudentBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select form-control-futurist" id="filterStudentClass">
+                                <option value="">Toutes les classes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="card-futurist">
+                        <div class="card-header-futurist d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Élèves inscrits</h5>
+                            <div>
+                                <button class="btn btn-futurist btn-sm" onclick="exportStudents()">
+                                    <i class="fas fa-download me-1"></i>Exporter
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body-futurist">
+                            <div class="table-responsive">
+                                <table class="table table-futurist">
+                                    <thead>
+                                        <tr>
+                                            <th>Matricule</th>
+                                            <th>Nom</th>
+                                            <th>Classe</th>
+                                            <th>Téléphone</th>
+                                            <th>Date inscription</th>
+                                            <th>Statut paiement</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="studentsTable">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div id="studentsPaginationInfo"></div>
+                                <nav>
+                                    <ul class="pagination" id="studentsPagination">
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Employés -->
+                <div id="employeesSection" style="display: none;">
+                    <h3 class="section-title">Gestion des Employés</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-futurist" id="searchEmployee" placeholder="Rechercher un employé...">
+                                <button class="btn btn-futurist" type="button" id="searchEmployeeBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-futurist btn-futurist-success w-100" onclick="showEmployeeModal()">
+                                <i class="fas fa-plus me-2"></i>Ajouter un employé
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-futurist">
+                        <div class="card-header-futurist">
+                            <h5 class="mb-0">Liste des employés</h5>
+                        </div>
+                        <div class="card-body-futurist">
+                            <div class="table-responsive">
+                                <table class="table table-futurist">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nom</th>
+                                            <th>Poste</th>
+                                            <th>Téléphone</th>
+                                            <th>Email</th>
+                                            <th>Date d'embauche</th>
+                                            <th>Salaire</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="employeesTable">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Frais et Versements -->
+                <div id="feesSection" style="display: none;">
+                    <h3 class="section-title">Gestion des Frais Scolaires</h3>
+                    
+                    <ul class="nav nav-tabs nav-tabs-futurist mb-4" id="feesTabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#feesConfig">Configuration</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#feesByClass">Frais par classe</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#feesReports">Rapports</a>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="feesConfig">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card-futurist mb-4">
+                                        <div class="card-header-futurist">
+                                            <h5 class="mb-0">Configuration des frais</h5>
+                                        </div>
+                                        <div class="card-body-futurist">
+                                            <form id="feeConfigForm">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Classe</label>
+                                                    <select class="form-select form-control-futurist" id="feeClass" required>
+                                                        <option value="">Sélectionner</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Frais généraux</label>
+                                                    <input type="number" class="form-control form-control-futurist" id="feeGeneral" min="0" required>
+                                                </div>
+                                                
+                                                <h6 class="mt-4 mb-3">Frais par trimestre</h6>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label">1er trimestre</label>
+                                                        <input type="number" class="form-control form-control-futurist" id="feeFirst" min="0" required>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label">2ème trimestre</label>
+                                                        <input type="number" class="form-control form-control-futurist" id="feeSecond" min="0" required>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label">3ème trimestre</label>
+                                                        <input type="number" class="form-control form-control-futurist" id="feeThird" min="0" required>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Frais divers</label>
+                                                    <input type="number" class="form-control form-control-futurist" id="feeMisc" min="0">
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="feeHalfPercent">
+                                                        <label class="form-check-label">Réduction 50% pour les boursiers</label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="feeFullFree">
+                                                        <label class="form-check-label">Exonération totale possible</label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <button type="submit" class="btn btn-futurist btn-futurist-success w-100">
+                                                    <i class="fas fa-save me-2"></i>Enregistrer les frais
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="card-futurist">
+                                        <div class="card-header-futurist">
+                                            <h5 class="mb-0">Frais configurés</h5>
+                                        </div>
+                                        <div class="card-body-futurist">
+                                            <div class="table-responsive">
+                                                <table class="table table-futurist">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Classe</th>
+                                                            <th>Général</th>
+                                                            <th>1er Trim</th>
+                                                            <th>2ème Trim</th>
+                                                            <th>3ème Trim</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="feesTable">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="feesByClass">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card-futurist">
+                                        <div class="card-header-futurist">
+                                            <h5 class="mb-0">Détails des frais par classe</h5>
+                                        </div>
+                                        <div class="card-body-futurist">
+                                            <div class="mb-3">
+                                                <select class="form-select form-control-futurist" id="selectClassForFees">
+                                                    <option value="">Sélectionner une classe</option>
+                                                </select>
+                                            </div>
+                                            <div id="classFeesDetails">
+                                                <p class="text-center text-muted">Sélectionnez une classe pour voir les détails</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="feesReports">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card-futurist mb-4">
+                                        <div class="card-header-futurist">
+                                            <h5 class="mb-0">Rapport des frais</h5>
+                                        </div>
+                                        <div class="card-body-futurist">
+                                            <div class="mb-3">
+                                                <label class="form-label">Période</label>
+                                                <select class="form-select form-control-futurist" id="feeReportPeriod">
+                                                    <option value="today">Aujourd'hui</option>
+                                                    <option value="week">Cette semaine</option>
+                                                    <option value="month">Ce mois</option>
+                                                    <option value="year">Cette année</option>
+                                                    <option value="custom">Personnalisée</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div id="customDateRange" style="display: none;">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Date début</label>
+                                                        <input type="date" class="form-control form-control-futurist" id="feeReportStart">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Date fin</label>
+                                                        <input type="date" class="form-control form-control-futurist" id="feeReportEnd">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <button class="btn btn-futurist w-100" onclick="generateFeeReport()">
+                                                <i class="fas fa-chart-bar me-2"></i>Générer le rapport
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="card-futurist">
+                                        <div class="card-header-futurist">
+                                            <h5 class="mb-0">Résumé des frais</h5>
+                                        </div>
+                                        <div class="card-body-futurist">
+                                            <div id="feesSummary">
+                                                <p class="text-center text-muted">Générez un rapport pour voir les statistiques</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Bourses -->
+                <div id="scholarshipsSection" style="display: none;">
+                    <h3 class="section-title">Gestion des Bourses</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <button class="btn btn-futurist btn-futurist-success w-100" onclick="showScholarshipModal()">
+                                <i class="fas fa-plus me-2"></i>Attribuer une bourse
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-futurist" id="searchScholarship" placeholder="Rechercher une bourse...">
+                                <button class="btn btn-futurist" type="button" id="searchScholarshipBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Liste des bourses</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="table-responsive">
+                                        <table class="table table-futurist">
+                                            <thead>
+                                                <tr>
+                                                    <th>Élève</th>
+                                                    <th>Type</th>
+                                                    <th>Montant</th>
+                                                    <th>Date attribution</th>
+                                                    <th>Date expiration</th>
+                                                    <th>Statut</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="scholarshipsTable">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Statistiques des bourses</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="text-center">
+                                        <h3 id="totalScholarships">0</h3>
+                                        <p class="text-light">Bourses actives</p>
+                                    </div>
+                                    <div class="mt-3">
+                                        <p><strong>Montant total:</strong> <span id="totalScholarshipAmount">0</span> HTG</p>
+                                        <p><strong>Bourses expirant ce mois:</strong> <span id="expiringScholarships">0</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Types de bourses</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div id="scholarshipTypes">
+                                        <p class="text-muted">Aucun type défini</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Transactions -->
+                <div id="transactionsSection" style="display: none;">
+                    <h3 class="section-title">Transactions Financières</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input type="date" class="form-control form-control-futurist" id="transactionDateFilter">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select form-control-futurist" id="transactionTypeFilter">
+                                <option value="">Tous les types</option>
+                                <option value="payment">Paiement</option>
+                                <option value="refund">Remboursement</option>
+                                <option value="expense">Dépense</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select form-control-futurist" id="transactionStatusFilter">
+                                <option value="">Tous les statuts</option>
+                                <option value="completed">Complété</option>
+                                <option value="pending">En attente</option>
+                                <option value="cancelled">Annulé</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-futurist w-100" onclick="filterTransactions()">
+                                <i class="fas fa-filter me-2"></i>Filtrer
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card-futurist">
+                                <div class="card-header-futurist d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Historique des transactions</h5>
+                                    <button class="btn btn-futurist btn-sm" onclick="showTransactionModal()">
+                                        <i class="fas fa-plus me-1"></i>Nouvelle transaction
+                                    </button>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="table-responsive">
+                                        <table class="table table-futurist">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Date</th>
+                                                    <th>Type</th>
+                                                    <th>Description</th>
+                                                    <th>Montant</th>
+                                                    <th>Statut</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="transactionsTable">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Résumé financier</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="mb-3">
+                                        <p><strong>Total des entrées:</strong></p>
+                                        <h4 id="totalIncome">0 HTG</h4>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p><strong>Total des sorties:</strong></p>
+                                        <h4 id="totalExpenses">0 HTG</h4>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p><strong>Solde:</strong></p>
+                                        <h4 id="balanceAmount">0 HTG</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Transactions récentes</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div id="recentTransactions">
+                                        <p class="text-center text-muted">Aucune transaction récente</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Présences -->
+                <div id="presenceSection" style="display: none;">
+                    <h3 class="section-title">Gestion des Présences</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control form-control-futurist" id="presenceDate" value="">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Classe</label>
+                            <select class="form-select form-control-futurist" id="presenceClass">
+                                <option value="">Sélectionner une classe</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button class="btn btn-futurist w-100" onclick="loadClassForPresence()">
+                                <i class="fas fa-search me-2"></i>Charger la classe
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-futurist">
+                        <div class="card-header-futurist">
+                            <h5 class="mb-0">Liste des élèves - Prise de présence</h5>
+                        </div>
+                        <div class="card-body-futurist">
+                            <div id="presenceFormContainer" style="display: none;">
+                                <form id="presenceForm">
+                                    <div class="table-responsive">
+                                        <table class="table table-futurist">
+                                            <thead>
+                                                <tr>
+                                                    <th>Élève</th>
+                                                    <th>Présent</th>
+                                                    <th>Absent</th>
+                                                    <th>Retard</th>
+                                                    <th>Justification</th>
+                                                    <th>Remarques</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="presenceStudentsTable">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <button type="submit" class="btn btn-futurist btn-futurist-success mt-3">
+                                        <i class="fas fa-save me-2"></i>Enregistrer les présences
+                                    </button>
+                                </form>
+                            </div>
+                            <div id="presencePlaceholder">
+                                <p class="text-center text-muted">Sélectionnez une date et une classe pour prendre les présences</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-futurist mt-4">
+                        <div class="card-header-futurist">
+                            <h5 class="mb-0">Historique des présences</h5>
+                        </div>
+                        <div class="card-body-futurist">
+                            <div class="mb-3">
+                                <select class="form-select form-control-futurist" id="presenceHistoryClass">
+                                    <option value="">Toutes les classes</option>
+                                </select>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-futurist">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Classe</th>
+                                            <th>Présents</th>
+                                            <th>Absents</th>
+                                            <th>Retards</th>
+                                            <th>Taux présence</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="presenceHistoryTable">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Discipline -->
+                <div id="disciplineSection" style="display: none;">
+                    <h3 class="section-title">Gestion de la Discipline</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <button class="btn btn-futurist btn-futurist-warning" onclick="showSanctionModal()">
+                                <i class="fas fa-plus me-2"></i>Nouvelle sanction
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-futurist" id="searchSanction" placeholder="Rechercher...">
+                                <button class="btn btn-futurist" type="button" id="searchSanctionBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Sanctions et avertissements</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="table-responsive">
+                                        <table class="table table-futurist">
+                                            <thead>
+                                                <tr>
+                                                    <th>Élève</th>
+                                                    <th>Type</th>
+                                                    <th>Date</th>
+                                                    <th>Description</th>
+                                                    <th>Statut</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="sanctionsTable">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Statistiques de discipline</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div id="disciplineStats">
+                                        <p class="text-center text-muted">Chargement des statistiques...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Types de sanctions</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <ul class="list-unstyled">
+                                        <li><span class="badge bg-warning me-2">Avertissement</span> Premier niveau</li>
+                                        <li><span class="badge bg-orange me-2">Retenue</span> Deuxième niveau</li>
+                                        <li><span class="badge bg-danger me-2">Exclusion</span> Dernier niveau</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Paiements -->
+                <div id="paymentsSection" style="display: none;">
+                    <h3 class="section-title">Gestion des Paiements</h3>
+                    
+                    <ul class="nav nav-tabs nav-tabs-futurist mb-4" id="paymentsTabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#newPayment">Nouveau paiement</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#paymentHistory">Historique</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#paymentReports">Rapports</a>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="newPayment">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card-futurist">
+                                        <div class="card-header-futurist">
+                                            <h5 class="mb-0">Formulaire de paiement</h5>
+                                        </div>
+                                        <div class="card-body-futurist">
+                                            <form id="paymentForm">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Élève</label>
+                                                    <select class="form-select form-control-futurist" id="paymentStudent" required>
+                                                        <option value="">Sélectionner</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Type de paiement</label>
+                                                    <select class="form-select form-control-futurist" id="paymentType" required>
+                                                        <option value="">Sélectionner</option>
+                                                        <option value="general">Frais généraux</option>
+                                                        <option value="first">1er trimestre</option>
+                                                        <option value="second">2ème trimestre</option>
+                                                        <option value="third">3ème trimestre</option>
+                                                        <option value="misc">Frais divers</option>
+                                                        <option value="other">Autre</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Montant dû</label>
+                                                    <input type="number" class="form-control form-control-futurist" id="paymentDue" readonly>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Montant payé</label>
+                                                    <input type="number" class="form-control form-control-futurist" id="paymentAmount" required min="1">
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Mode de paiement</label>
+                                                    <select class="form-select form-control-futurist" id="paymentMethod" required>
+                                                        <option value="cash">Espèces</option>
+                                                        <option value="check">Chèque</option>
+                                                        <option value="transfer">Virement</option>
+                                                        <option value="mobile">Mobile Money</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Référence</label>
+                                                    <input type="text" class="form-control form-control-futurist" id="paymentReference" placeholder="Numéro de chèque ou référence">
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Date du paiement</label>
+                                                    <input type="date" class="form-control form-control-futurist" id="paymentDate" required>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Remarques</label>
+                                                    <textarea class="form-control form-control-futurist" id="paymentRemarks" rows="2"></textarea>
+                                                </div>
+                                                
+                                                <button type="submit" class="btn btn-futurist btn-futurist-success w-100">
+                                                    <i class="fas fa-money-bill-wave me-2"></i>Enregistrer le paiement
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="card-futurist mb-4">
+                                        <div class="card-header-futurist">
+                                            <h5 class="mb-0">Détails de l'élève</h5>
+                                        </div>
+                                        <div class="card-body-futurist">
+                                            <div id="studentPaymentDetails">
+                                                <p class="text-center text-muted">Sélectionnez un élève pour voir les détails</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card-futurist">
+                                        <div class="card-header-futurist">
+                                            <h5 class="mb-0">Statut des paiements</h5>
+                                        </div>
+                                        <div class="card-body-futurist">
+                                            <div id="paymentStatusSummary">
+                                                <p class="text-center text-muted">Informations sur les paiements</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="paymentHistory">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card-futurist">
+                                        <div class="card-header-futurist">
+                                            <h5 class="mb-0">Historique des paiements</h5>
+                                        </div>
+                                        <div class="card-body-futurist">
+                                            <div class="table-responsive">
+                                                <table class="table table-futurist">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>Élève</th>
+                                                            <th>Type</th>
+                                                            <th>Montant</th>
+                                                            <th>Mode</th>
+                                                            <th>Statut</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="paymentsHistoryTable">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="paymentReports">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card-futurist mb-4">
+                                        <div class="card-header-futurist">
+                                            <h5 class="mb-0">Générer un reçu</h5>
+                                        </div>
+                                        <div class="card-body-futurist">
+                                            <div class="mb-3">
+                                                <label class="form-label">Sélectionner un paiement</label>
+                                                <select class="form-select form-control-futurist" id="receiptPayment">
+                                                    <option value="">Sélectionner</option>
+                                                </select>
+                                            </div>
+                                            <button class="btn btn-futurist w-100" onclick="generateReceipt()">
+                                                <i class="fas fa-receipt me-2"></i>Générer le reçu
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="card-futurist">
+                                        <div class="card-header-futurist">
+                                            <h5 class="mb-0">Rapport des paiements</h5>
+                                        </div>
+                                        <div class="card-body-futurist">
+                                            <div id="paymentReportContent">
+                                                <p class="text-center text-muted">Générez des rapports de paiement</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Mes Classes (Professeurs) -->
+                <div id="myClassesSection" style="display: none;">
+                    <h3 class="section-title">Mes Classes</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Classes assignées</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div id="teacherClasses">
+                                        <p class="text-center text-muted">Chargement des classes...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Élèves par classe</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="mb-3">
+                                        <select class="form-select form-control-futurist" id="selectClassForStudents">
+                                            <option value="">Sélectionner une classe</option>
+                                        </select>
+                                    </div>
+                                    <div id="classStudentsList">
+                                        <p class="text-center text-muted">Sélectionnez une classe</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Matières enseignées</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div id="teacherSubjects">
+                                        <p class="text-center text-muted">Chargement des matières...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Professeurs -->
+                <div id="teachersSection" style="display: none;">
+                    <h3 class="section-title">Gestion des Professeurs</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <button class="btn btn-futurist btn-futurist-success w-100" onclick="showTeacherModal()">
+                                <i class="fas fa-plus me-2"></i>Ajouter un professeur
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-futurist" id="searchTeacher" placeholder="Rechercher un professeur...">
+                                <button class="btn btn-futurist" type="button" id="searchTeacherBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Liste des professeurs</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="table-responsive">
+                                        <table class="table table-futurist">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nom</th>
+                                                    <th>Matières</th>
+                                                    <th>Classes</th>
+                                                    <th>Téléphone</th>
+                                                    <th>Email</th>
+                                                    <th>Statut</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="teachersTable">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Statistiques</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="text-center">
+                                        <h3 id="totalTeachers">0</h3>
+                                        <p class="text-light">Professeurs actifs</p>
+                                    </div>
+                                    <div class="mt-3">
+                                        <p><strong>Matières couvertes:</strong> <span id="coveredSubjects">0</span></p>
+                                        <p><strong>Classes assignées:</strong> <span id="assignedClasses">0</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Assignation de classes</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div id="classAssignment">
+                                        <p class="text-center text-muted">Assignez des classes aux professeurs</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Messages -->
+                <div id="messagesSection" style="display: none;">
+                    <h3 class="section-title">Messagerie</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Nouveau message</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <form id="messageForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Destinataire</label>
+                                            <select class="form-select form-control-futurist" id="messageTo" required>
+                                                <option value="">Sélectionner</option>
+                                                <option value="all">Tous les services</option>
+                                                <option value="admin">Administration</option>
+                                                <option value="secretary">Secrétariat</option>
+                                                <option value="censeur">Censeur</option>
+                                                <option value="surveillant">Surveillance</option>
+                                                <option value="economat">Économat</option>
+                                                <option value="teachers">Tous les professeurs</option>
+                                                <option value="parents">Tous les parents</option>
+                                                <option value="students">Tous les élèves</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Destinataire spécifique (optionnel)</label>
+                                            <input type="text" class="form-control form-control-futurist" id="specificRecipient" placeholder="Nom ou ID">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Sujet</label>
+                                            <input type="text" class="form-control form-control-futurist" id="messageSubject" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Message</label>
+                                            <textarea class="form-control form-control-futurist" id="messageContent" rows="5" required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Pièce jointe (optionnel)</label>
+                                            <input type="file" class="form-control form-control-futurist" id="messageAttachment">
+                                            <small class="text-muted">Formats acceptés: PDF, DOC, DOCX, XLS, XLSX, JPG, PNG</small>
+                                        </div>
+                                        <button type="submit" class="btn btn-futurist btn-futurist-primary w-100">
+                                            <i class="fas fa-paper-plane me-2"></i>Envoyer
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            <div class="card-futurist">
+                                <div class="card-header-futurist d-flex justify-content-between">
+                                    <h5 class="mb-0">Boîte de réception</h5>
+                                    <div>
+                                        <button class="btn btn-sm btn-futurist me-2" id="refreshMessages">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                        <select class="form-select form-control-futurist-sm d-inline w-auto" id="messageFilter">
+                                            <option value="all">Tous les messages</option>
+                                            <option value="unread">Non lus</option>
+                                            <option value="sent">Envoyés</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="message-list" id="messagesList">
+                                        <!-- Messages chargés dynamiquement -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Réunions et Cours en ligne -->
+                <div id="meetingsSection" style="display: none;">
+                    <h3 class="section-title">Réunions & Cours en ligne</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Créer une réunion/cours</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <form id="meetingForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Type</label>
+                                            <select class="form-select form-control-futurist" id="meetingType" required>
+                                                <option value="meeting">Réunion</option>
+                                                <option value="class">Cours en ligne</option>
+                                                <option value="parent_meeting">Réunion parents-professeurs</option>
+                                                <option value="staff_meeting">Réunion du personnel</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Titre</label>
+                                            <input type="text" class="form-control form-control-futurist" id="meetingTitle" required>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Date</label>
+                                                <input type="date" class="form-control form-control-futurist" id="meetingDate" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Heure</label>
+                                                <input type="time" class="form-control form-control-futurist" id="meetingTime" required>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Durée (minutes)</label>
+                                            <input type="number" class="form-control form-control-futurist" id="meetingDuration" value="60" min="15" max="240">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Participants</label>
+                                            <select class="form-select form-control-futurist" id="meetingParticipants" multiple>
+                                                <option value="teachers">Professeurs</option>
+                                                <option value="students">Élèves</option>
+                                                <option value="parents">Parents</option>
+                                                <option value="admin">Administration</option>
+                                                <option value="secretary">Secrétariat</option>
+                                                <option value="all">Tout le monde</option>
+                                            </select>
+                                            <small class="text-muted">Maintenez Ctrl pour sélectionner plusieurs</small>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Lien Zoom/Meet (optionnel)</label>
+                                            <input type="url" class="form-control form-control-futurist" id="meetingLink" placeholder="https://zoom.us/j/...">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                            <textarea class="form-control form-control-futurist" id="meetingDescription" rows="3"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-futurist btn-futurist-success w-100">
+                                            <i class="fas fa-calendar-plus me-2"></i>Créer la réunion
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Réunions à venir</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div id="upcomingMeetings">
+                                        <!-- Réunions chargées dynamiquement -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-futurist online-class-card">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Cours en ligne actifs</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div id="activeOnlineClasses">
+                                        <p class="text-center text-muted">Aucun cours en ligne actif pour le moment</p>
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <button class="btn btn-futurist btn-futurist-primary" id="joinClassBtn">
+                                            <i class="fas fa-video me-2"></i>Rejoindre un cours
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Historique des réunions -->
+                    <div class="card-futurist">
+                        <div class="card-header-futurist">
+                            <h5 class="mb-0">Historique des réunions</h5>
+                        </div>
+                        <div class="card-body-futurist">
+                            <table class="table table-futurist">
+                                <thead>
+                                    <tr>
+                                        <th>Titre</th>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Participants</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="meetingsHistoryTable">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Devoirs -->
+                <div id="homeworkSection" style="display: none;">
+                    <h3 class="section-title">Gestion des Devoirs</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card-futurist homework-card mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Nouveau devoir</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <form id="homeworkForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Classe</label>
+                                            <select class="form-select form-control-futurist" id="homeworkClass" required>
+                                                <option value="">Sélectionner</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Matière</label>
+                                            <select class="form-select form-control-futurist" id="homeworkSubject" required>
+                                                <option value="">Sélectionner</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Titre du devoir</label>
+                                            <input type="text" class="form-control form-control-futurist" id="homeworkTitle" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                            <textarea class="form-control form-control-futurist" id="homeworkDescription" rows="3" required></textarea>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Date d'attribution</label>
+                                                <input type="date" class="form-control form-control-futurist" id="homeworkAssignDate" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Date de remise</label>
+                                                <input type="date" class="form-control form-control-futurist" id="homeworkDueDate" required>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Note maximale</label>
+                                            <input type="number" class="form-control form-control-futurist" id="homeworkMaxGrade" value="20" min="5" max="100">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Fichier (optionnel)</label>
+                                            <input type="file" class="form-control form-control-futurist" id="homeworkFile">
+                                        </div>
+                                        <button type="submit" class="btn btn-futurist btn-futurist-success w-100">
+                                            <i class="fas fa-save me-2"></i>Créer le devoir
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Devoirs assignés</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <table class="table table-futurist">
+                                        <thead>
+                                            <tr>
+                                                <th>Classe</th>
+                                                <th>Matière</th>
+                                                <th>Titre</th>
+                                                <th>Date remise</th>
+                                                <th>Note max</th>
+                                                <th>Statut</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="homeworkTable">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Saisie des notes de devoir</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="row mb-3">
+                                        <div class="col-md-4">
+                                            <select class="form-select form-control-futurist" id="selectHomeworkForGrades">
+                                                <option value="">Sélectionner un devoir</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-futurist w-100" id="loadHomeworkGrades">Charger</button>
+                                        </div>
+                                    </div>
+                                    <div id="homeworkGradesSection" style="display: none;">
+                                        <h6 id="homeworkGradesTitle"></h6>
+                                        <table class="table table-futurist">
+                                            <thead>
+                                                <tr>
+                                                    <th>Élève</th>
+                                                    <th>Note (/<span id="homeworkMaxDisplay">20</span>)</th>
+                                                    <th>Remarques</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="homeworkGradesList">
+                                            </tbody>
+                                        </table>
+                                        <button class="btn btn-futurist btn-futurist-success float-end" id="saveHomeworkGrades">
+                                            Enregistrer les notes
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Notes améliorée -->
+                <div id="gradesSection" style="display: none;">
+                    <h3 class="section-title">Saisie des Notes</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Sélection</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="mb-3">
+                                        <label class="form-label">Classe</label>
+                                        <select class="form-select form-control-futurist" id="gradeClass">
+                                            <option value="">Sélectionner</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Section</label>
+                                        <select class="form-select form-control-futurist" id="gradeSection">
+                                            <option value="">Sélectionner</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Matière</label>
+                                        <select class="form-select form-control-futurist" id="gradeSubject">
+                                            <option value="">Sélectionner</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Type d'évaluation</label>
+                                        <select class="form-select form-control-futurist" id="gradeType">
+                                            <option value="devoir">Devoir</option>
+                                            <option value="examen">Examen</option>
+                                            <option value="composition">Composition</option>
+                                            <option value="participation">Participation</option>
+                                            <option value="project">Projet</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Note sur</label>
+                                        <input type="number" class="form-control form-control-futurist" id="gradeMax" value="100">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Coefficient</label>
+                                        <input type="number" class="form-control form-control-futurist" id="gradeCoefficient" value="1" min="0.5" max="5" step="0.5">
+                                    </div>
+                                    <button class="btn btn-futurist btn-futurist-primary w-100" id="loadStudentsForGrades">
+                                        Charger les élèves
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Note: La partie devoirs est déjà incluse dans la saisie -->
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Notes de devoirs</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <p>Les notes de devoirs sont automatiquement ajoutées aux calculs des bulletins.</p>
+                                    <p>Pour saisir les notes de devoirs, utilisez la section "Devoirs".</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Saisie des notes</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div id="gradesEntry" style="display: none;">
+                                        <h6 id="gradesTitle"></h6>
+                                        <table class="table table-futurist">
+                                            <thead>
+                                                <tr>
+                                                    <th>Élève</th>
+                                                    <th>Note (/<span id="maxGradeDisplay">100</span>)</th>
+                                                    <th>Note devoir (si existe)</th>
+                                                    <th>Note totale</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="gradesStudentsList">
+                                            </tbody>
+                                        </table>
+                                        <div class="mt-3">
+                                            <button class="btn btn-futurist btn-futurist-success me-2" id="saveGrades">
+                                                Enregistrer les notes
+                                            </button>
+                                            <button class="btn btn-futurist" id="calculateAverages">
+                                                Calculer les moyennes
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="gradesPlaceholder">
+                                        <p class="text-center text-muted">Sélectionnez une classe, une section et une matière</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Aperçu des moyennes -->
+                            <div class="card-futurist mt-4" id="averagesPreview" style="display: none;">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Aperçu des moyennes</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div id="averagesContent"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Bulletins améliorée -->
+                <div id="bulletinsSection" style="display: none;">
+                    <h3 class="section-title">Génération des Bulletins</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Sélection pour le bulletin</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div class="mb-3">
+                                        <label class="form-label">Classe</label>
+                                        <select class="form-select form-control-futurist" id="bulletinClass">
+                                            <option value="">Sélectionner</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Élève</label>
+                                        <select class="form-select form-control-futurist" id="bulletinStudent">
+                                            <option value="">Sélectionner</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Trimestre</label>
+                                        <select class="form-select form-control-futurist" id="bulletinTrimester">
+                                            <option value="1">1er trimestre</option>
+                                            <option value="2">2ème trimestre</option>
+                                            <option value="3">3ème trimestre</option>
+                                            <option value="annual">Annuel</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="includeHomework" checked>
+                                            <label class="form-check-label">Inclure les notes de devoirs</label>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-futurist btn-futurist-primary w-100" id="generateBulletin">
+                                        <i class="fas fa-file-alt me-2"></i>Générer le bulletin
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Informations sur le bulletin</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <p>Le bulletin inclura automatiquement:</p>
+                                    <ul>
+                                        <li>Toutes les matières configurées pour la section</li>
+                                        <li>Les coefficients par matière</li>
+                                        <li>Les notes des devoirs (si activé)</li>
+                                        <li>Les notes des examens et compositions</li>
+                                        <li>Les totaux et moyennes pondérées</li>
+                                        <li>Le classement dans la classe</li>
+                                        <li>Les appréciations et mentions</li>
+                                    </ul>
+                                    <div class="alert alert-info mt-3">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>Note:</strong> Assurez-vous que toutes les notes sont saisies avant de générer le bulletin.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="bulletinOutput" style="display: none;">
+                        <div class="card-futurist">
+                            <div class="card-header-futurist d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Aperçu du bulletin</h5>
+                                <div>
+                                    <button class="btn btn-futurist btn-sm me-2" id="printBulletin">
+                                        <i class="fas fa-print me-2"></i>Imprimer
+                                    </button>
+                                    <button class="btn btn-futurist btn-sm btn-futurist-success me-2" id="saveBulletin">
+                                        <i class="fas fa-save me-2"></i>Enregistrer
+                                    </button>
+                                    <button class="btn btn-futurist btn-sm btn-futurist-primary" id="exportPDF">
+                                        <i class="fas fa-file-pdf me-2"></i>Exporter PDF
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body-futurist">
+                                <div id="bulletinContent" class="printable-area">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section Profil -->
+                <div id="profileSection" style="display: none;">
+                    <h3 class="section-title">Mon Profil</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card-futurist mb-4">
+                                <div class="card-body-futurist text-center">
+                                    <div class="mb-3">
+                                        <i class="fas fa-user-circle fa-5x" style="color: var(--accent-color);"></i>
+                                    </div>
+                                    <h4 id="profileName">Admin Système</h4>
+                                    <p class="text-light" id="profileRole">Administration</p>
+                                    <div class="mt-3">
+                                        <span class="badge badge-futurist badge-admin" id="profileBadge">Admin</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Changer le mot de passe</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <form id="changePasswordForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Mot de passe actuel</label>
+                                            <input type="password" class="form-control form-control-futurist" id="currentPassword" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Nouveau mot de passe</label>
+                                            <input type="password" class="form-control form-control-futurist" id="newPassword" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Confirmer le nouveau mot de passe</label>
+                                            <input type="password" class="form-control form-control-futurist" id="confirmPassword" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-futurist btn-futurist-primary w-100">
+                                            <i class="fas fa-key me-2"></i>Changer le mot de passe
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            <div class="card-futurist mb-4">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Informations personnelles</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <form id="profileForm">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Nom</label>
+                                                <input type="text" class="form-control form-control-futurist" id="profileLastName" value="Système">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Prénom</label>
+                                                <input type="text" class="form-control form-control-futurist" id="profileFirstName" value="Admin">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Email</label>
+                                                <input type="email" class="form-control form-control-futurist" id="profileEmail" value="admin@ecole.edu">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Téléphone</label>
+                                                <input type="tel" class="form-control form-control-futurist" id="profilePhone" value="509 44 44 4444">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Adresse</label>
+                                            <input type="text" class="form-control form-control-futurist" id="profileAddress" value="Port-au-Prince">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Date d'embauche</label>
+                                            <input type="date" class="form-control form-control-futurist" id="profileHireDate" value="2024-01-01">
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-futurist btn-futurist-success">
+                                            <i class="fas fa-save me-2"></i>Mettre à jour le profil
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <div class="card-futurist">
+                                <div class="card-header-futurist">
+                                    <h5 class="mb-0">Activités récentes</h5>
+                                </div>
+                                <div class="card-body-futurist">
+                                    <div id="profileActivities">
+                                        <p class="text-center text-muted">Aucune activité récente</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal fade modal-futurist" id="classLimitModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Limite d'inscription par classe</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="classLimitForm">
+                        <div class="mb-3">
+                            <label class="form-label">Classe</label>
+                            <select class="form-select form-control-futurist" id="modalClass" required>
+                                <option value="">Sélectionner</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Limite d'élèves</label>
+                            <input type="number" class="form-control form-control-futurist" id="modalLimit" min="1" max="100" required>
+                        </div>
+                        <button type="submit" class="btn btn-futurist btn-futurist-success w-100">Enregistrer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade modal-futurist" id="employeeModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nouvel employé</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="employeeForm">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nom</label>
+                                <input type="text" class="form-control form-control-futurist" id="employeeLastName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Prénom</label>
+                                <input type="text" class="form-control form-control-futurist" id="employeeFirstName" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Poste</label>
+                                <select class="form-select form-control-futurist" id="employeePosition" required>
+                                    <option value="">Sélectionner</option>
+                                    <option value="admin">Administration</option>
+                                    <option value="secretary">Secrétariat</option>
+                                    <option value="surveillant">Surveillant</option>
+                                    <option value="economat">Économat</option>
+                                    <option value="censeur">Censeur</option>
+                                    <option value="teacher">Professeur</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Salaire</label>
+                                <input type="number" class="form-control form-control-futurist" id="employeeSalary" min="0" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control form-control-futurist" id="employeeEmail" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Téléphone</label>
+                                <input type="tel" class="form-control form-control-futurist" id="employeePhone" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Adresse</label>
+                            <input type="text" class="form-control form-control-futurist" id="employeeAddress" required>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Date d'embauche</label>
+                                <input type="date" class="form-control form-control-futurist" id="employeeHireDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Date de naissance</label>
+                                <input type="date" class="form-control form-control-futurist" id="employeeBirthDate" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Diplômes</label>
+                            <textarea class="form-control form-control-futurist" id="employeeDiplomas" rows="2"></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Expérience</label>
+                            <textarea class="form-control form-control-futurist" id="employeeExperience" rows="2"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-futurist btn-futurist-success w-100">Enregistrer l'employé</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade modal-futurist" id="teacherModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nouveau professeur</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="teacherForm">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nom</label>
+                                <input type="text" class="form-control form-control-futurist" id="teacherLastName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Prénom</label>
+                                <input type="text" class="form-control form-control-futurist" id="teacherFirstName" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control form-control-futurist" id="teacherEmail" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Téléphone</label>
+                                <input type="tel" class="form-control form-control-futurist" id="teacherPhone" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Matières enseignées</label>
+                            <select class="form-select form-control-futurist" id="teacherSubjects" multiple>
+                                <!-- Rempli dynamiquement -->
+                            </select>
+                            <small class="text-muted">Maintenez Ctrl pour sélectionner plusieurs matières</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Classes assignées</label>
+                            <select class="form-select form-control-futurist" id="teacherClasses" multiple>
+                                <!-- Rempli dynamiquement -->
+                            </select>
+                            <small class="text-muted">Maintenez Ctrl pour sélectionner plusieurs classes</small>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Date d'embauche</label>
+                                <input type="date" class="form-control form-control-futurist" id="teacherHireDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Salaire</label>
+                                <input type="number" class="form-control form-control-futurist" id="teacherSalary" min="0" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Spécialisation</label>
+                            <input type="text" class="form-control form-control-futurist" id="teacherSpecialization">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Diplômes</label>
+                            <textarea class="form-control form-control-futurist" id="teacherDiplomas" rows="2"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-futurist btn-futurist-success w-100">Enregistrer le professeur</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade modal-futurist" id="scholarshipModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Attribuer une bourse</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="scholarshipForm">
+                        <div class="mb-3">
+                            <label class="form-label">Élève</label>
+                            <select class="form-select form-control-futurist" id="scholarshipStudent" required>
+                                <option value="">Sélectionner</option>
+                            </select>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Type de bourse</label>
+                                <select class="form-select form-control-futurist" id="scholarshipType" required>
+                                    <option value="academic">Académique</option>
+                                    <option value="social">Sociale</option>
+                                    <option value="sport">Sportive</option>
+                                    <option value="merit">Mérite</option>
+                                    <option value="other">Autre</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Pourcentage</label>
+                                <input type="number" class="form-control form-control-futurist" id="scholarshipPercentage" min="0" max="100" value="50">
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Date d'attribution</label>
+                                <input type="date" class="form-control form-control-futurist" id="scholarshipStartDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Date d'expiration</label>
+                                <input type="date" class="form-control form-control-futurist" id="scholarshipEndDate" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Motivation</label>
+                            <textarea class="form-control form-control-futurist" id="scholarshipReason" rows="3" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-futurist btn-futurist-success w-100">Attribuer la bourse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade modal-futurist" id="transactionModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nouvelle transaction</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="transactionForm">
+                        <div class="mb-3">
+                            <label class="form-label">Type de transaction</label>
+                            <select class="form-select form-control-futurist" id="transactionType" required>
+                                <option value="payment">Paiement</option>
+                                <option value="refund">Remboursement</option>
+                                <option value="expense">Dépense</option>
+                                <option value="income">Autre revenu</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <input type="text" class="form-control form-control-futurist" id="transactionDescription" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Montant (HTG)</label>
+                            <input type="number" class="form-control form-control-futurist" id="transactionAmount" min="0" step="0.01" required>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Catégorie</label>
+                                <select class="form-select form-control-futurist" id="transactionCategory" required>
+                                    <option value="tuition">Scolarité</option>
+                                    <option value="salary">Salaires</option>
+                                    <option value="equipment">Équipement</option>
+                                    <option value="maintenance">Maintenance</option>
+                                    <option value="other">Autre</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Date</label>
+                                <input type="date" class="form-control form-control-futurist" id="transactionDate" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Mode de paiement</label>
+                            <select class="form-select form-control-futurist" id="transactionMethod" required>
+                                <option value="cash">Espèces</option>
+                                <option value="check">Chèque</option>
+                                <option value="transfer">Virement</option>
+                                <option value="mobile">Mobile Money</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Référence</label>
+                            <input type="text" class="form-control form-control-futurist" id="transactionReference" placeholder="Numéro de chèque ou référence">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Remarques</label>
+                            <textarea class="form-control form-control-futurist" id="transactionRemarks" rows="2"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-futurist btn-futurist-success w-100">Enregistrer la transaction</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade modal-futurist" id="sanctionModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nouvelle sanction</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="sanctionForm">
+                        <div class="mb-3">
+                            <label class="form-label">Élève</label>
+                            <select class="form-select form-control-futurist" id="sanctionStudent" required>
+                                <option value="">Sélectionner</option>
+                            </select>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Type de sanction</label>
+                                <select class="form-select form-control-futurist" id="sanctionType" required>
+                                    <option value="warning">Avertissement</option>
+                                    <option value="detention">Retenue</option>
+                                    <option value="suspension">Suspension</option>
+                                    <option value="exclusion">Exclusion</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Date</label>
+                                <input type="date" class="form-control form-control-futurist" id="sanctionDate" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control form-control-futurist" id="sanctionDescription" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Durée (si applicable)</label>
+                            <input type="text" class="form-control form-control-futurist" id="sanctionDuration" placeholder="Ex: 3 jours">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Mesures correctives</label>
+                            <textarea class="form-control form-control-futurist" id="sanctionMeasures" rows="2"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-futurist btn-futurist-warning w-100">Enregistrer la sanction</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="data.js"></script>
+    <script src="auth.js"></script>
+    <script src="ui.js"></script>
+    <script src="students.js"></script>
+    <script src="staff.js"></script>
+    <script src="finance.js"></script>
+    <script src="academic.js"></script>
+    <script src="communication.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
